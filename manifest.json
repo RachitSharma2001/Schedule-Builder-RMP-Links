@@ -8,7 +8,7 @@
   },
   "content_scripts": [
     { "run_at" :"document_end",
-    "matches": ["https://registrar-apps.ucdavis.edu/courses/search/index.cfm"],
+    "matches": ["https://my.ucdavis.edu/schedulebuilder/index.cfm*"],
     "js": ["myScript.js"]
     }],
     "web_accessible_resources": [{
