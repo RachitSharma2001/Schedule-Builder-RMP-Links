@@ -1,3 +1,10 @@
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  // 2. A page requested user data, respond with a copy of `user`
+  if (message === 'get-prof-data') {
+    sendResponse("hello");
+  }
+});
+
 // background.js
 /*
 let color = '#3aa757';

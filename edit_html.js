@@ -1,4 +1,29 @@
-console.log("We work!");
+//console.log("We work!");
+
+/*
+chrome.runtime.sendMessage('get-prof-data', (response) => {
+    // 3. Got an asynchronous response with the data from the background
+    console.log('received response: ', response);
+});*/
+
+/*document.addEventListener('message', function(event){
+    if (event.data && event.data.extensionMessage) {
+        console.log(event.data.extensionMessage);
+    }
+}, {passive: true})*/
+
+chrome.action.addListener(async (tab) => {
+    let unknown_data = await fetch('content_script.js');
+    console.log("we found it! " + unknown_data)
+    //let user = await userReq.json();
+    
+  });
+
+/*window.addEventListener('message', function(event) {
+    if (event.data && event.data.extensionMessage) {
+        console.log(event.data.extensionMessage);
+    }
+});*/
 
 var target = document.getElementById("inlineCourseResultsDiv");
 
