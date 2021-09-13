@@ -1,2 +1,4 @@
 1. If programming late at night, if you repeatidly are making silly mistakes, just stop and wait until the next day to continue programming 
 2. An idea: Once we finish a part of a program (meaning after we finish implementing a feature), seperate into its own function.
+3. Never make assumptions -> test your program on every place you want your program to apply
+    a. When implementing it didn't work if you did "add/search courses" -> only realized it much much later
