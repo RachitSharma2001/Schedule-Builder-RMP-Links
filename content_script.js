@@ -13,28 +13,37 @@
         json in and just seperate at different places (so that each string fits, as currently the large string is too long for the js to handle as one string)
 */
 
+/*
 const url = chrome.runtime.getURL('test_file.txt');
 
 // url to link to: https://www.ratemyprofessors.com/ShowRatings.jsp?tid=2503455
 
-/*
+
 fetch(url)
     .then((response) => response.json()) //assuming file contains json
-    .then((json) => console.log("Here is json: " + json["G_Quon"]));*/
+    .then((json) => console.log("Here is json: " + json["G_Quon"]));
 
-    /*chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
-        console.log(response.farewell);
-      });*/
-window.postMessage({extensionMessage: "From content script"}, '*');
+
+
 
 var script = document.createElement("script");
 script.src = chrome.runtime.getURL("edit_html.js");
-(document.head || document.documentElement).appendChild(script);
+(document.head || document.documentElement).appendChild(script);*/
 
-/*
-var s = document.createElement('script');
-s.src = chrome.extension.getURL('script.js'); // In web_accessible_resources
-(document.head || document.documentElement).appendChild(s);
-s.onload = function() {
-    s.remove(); // Clean up, just to be nice.
-};*/
+var target = document.getElementById("inlineCourseResultsDiv");
+
+// create an observer instance
+var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        professor_name = target.getElementsByClassName("data-item")[0].getElementsByClassName("data-item-long active")[0].getElementsByClassName("float-left")[0].getElementsByClassName("clearfix")[0].getElementsByClassName("data-column")[4];
+        console.log("Inner html: " + professor_name.innerHTML)
+        professor_name.innerHTML = '<a href="mailto:refurrow@ucdavis.edu">Inserted!</a>, <a href="mailto:slkeen@ucdavis.edu">Another insert!</a>';
+    });
+});
+
+// configuration of the observer:
+var config = { attributes: true, childList: true, characterData: true }
+
+// pass in the target node, as well as the observer options
+observer.observe(target, config);
+

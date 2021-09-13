@@ -1,8 +1,8 @@
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  // 2. A page requested user data, respond with a copy of `user`
-  if (message === 'get-prof-data') {
-    sendResponse("hello");
-  }
+ /* Send professor data to edit_html */   
+ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+  chrome.tabs.sendMessage(tabs[0].id, {greeting: "hello"}, function(response) {
+    console.log(response.farewell);
+  });
 });
 
 // background.js

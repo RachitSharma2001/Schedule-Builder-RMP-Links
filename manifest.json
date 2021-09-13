@@ -9,7 +9,7 @@
   "content_scripts": [
     { "run_at" :"document_end",
     "matches": ["https://my.ucdavis.edu/schedulebuilder/index.cfm*"],
-    "js": ["content_script.js"]
+    "js": ["content_script.js", "edit_html.js"]
     }],
     "web_accessible_resources": [{
         "resources": ["edit_html.js", "test_file.txt"],
