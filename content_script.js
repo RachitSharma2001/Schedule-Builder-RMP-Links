@@ -4,11 +4,8 @@ function getInFormat(profName){
     return profName.replace(". ", "_");
 }
 
-function linkRMP(profJson){
-    var target = document.getElementById("inlineCourseResultsDiv");
-    var genericRmpURL = "https://www.ratemyprofessors.com/ShowRatings.jsp?tid="
-    
-    var inlineObserver = new MutationObserver(function(mutations) {
+function createObserver(target, profJson, genericRmpURL){
+    return new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             var genericHrefs = [' (<a href = "', '">RMP</a>)'];
             
@@ -29,42 +26,19 @@ function linkRMP(profJson){
             }
         });
     });
+}
 
-    // configuration of the observer:
-    var config = { attributes: true, childList: true, characterData: true };
+function linkRMP(profJson){
+    var genericRmpURL = "https://www.ratemyprofessors.com/ShowRatings.jsp?tid="
+    var genericConfig = { attributes: true, childList: true, characterData: true };
+    
+    var inlineTarget = document.getElementById("inlineCourseResultsDiv");
+    var inlineObserver = createObserver(inlineTarget, profJson, genericRmpURL);
+    inlineObserver.observe(inlineTarget, genericConfig);
 
-    // pass in the target node, as well as the observer options
-    inlineObserver.observe(target, config);
-
-    // Just testing!
     var outlineTarget = document.getElementById("courseResultsDiv");
-    var outlineObserver = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            var genericHrefs = [' <a href = "', '">(RMP)</a>'];
-            
-            var allClasses = outlineTarget.getElementsByClassName("data-item");
-
-            for(classIndex = 0; classIndex < allClasses.length; classIndex++){
-                var profHrefs = allClasses[classIndex].getElementsByClassName("data-item-long active")[0].getElementsByClassName("float-left")[0].getElementsByClassName("clearfix")[0].getElementsByClassName("data-column")[4];
-                var profTags = profHrefs.getElementsByTagName("a");
-                for(i = 0; i < profTags.length; i++){
-                    var profName = profHrefs.getElementsByTagName("a")[i].innerHTML;
-                    var profNameInFormat = getInFormat(profName);
-                    var profTid = profJson[profNameInFormat];
-                    
-                    var specificRmpUrl = genericRmpURL + profJson[profNameInFormat];
-                    var specificHref = genericHrefs[0] + specificRmpUrl + genericHrefs[1];
-                    profHrefs.getElementsByTagName("a")[i++].innerHTML += specificHref;
-                }
-            }
-        });
-    });
-
-    // configuration of the observer:
-    var outlineConfig = { attributes: true, childList: true, characterData: true };
-
-    // pass in the target node, as well as the observer options
-    outlineObserver.observe(outlineTarget, outlineConfig);
+    var outlineObserver = createObserver(outlineTarget, profJson, genericRmpURL);
+    outlineObserver.observe(outlineTarget, genericConfig);
 }
 
 const url = chrome.runtime.getURL('test_file.txt');
