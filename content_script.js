@@ -40,7 +40,7 @@ function linkRMP(profJson){
     var outlineTarget = document.getElementById("courseResultsDiv");
     var outlineObserver = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            var genericHrefs = [' (<a href = "', '">RMP</a>)'];
+            var genericHrefs = [' <a href = "', '">(RMP)</a>'];
             
             var allClasses = outlineTarget.getElementsByClassName("data-item");
 
