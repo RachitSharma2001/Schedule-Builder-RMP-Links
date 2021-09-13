@@ -11,7 +11,7 @@ function linkRMP(profJson){
     // create an observer instance
     var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            var genericHrefs = ['<a href = "', '"> RMP </a>'];
+            var genericHrefs = [' (<a href = "', '">RMP</a>)'];
             
             var allClasses = target.getElementsByClassName("data-item");
 
@@ -19,10 +19,12 @@ function linkRMP(profJson){
                 var profHrefs = allClasses[classIndex].getElementsByClassName("data-item-long active")[0].getElementsByClassName("float-left")[0].getElementsByClassName("clearfix")[0].getElementsByClassName("data-column")[4];
                 //console.log("Original profHrefs: " + profHrefs);
                 //console.log("Inner html of prof hrefs: " + profHrefs.innerHTML);
-
-                var rmpInnerHtml = "";
+                //console.log("profHrefs[0]: " + profHrefs[0].innerHTML);
+                //var rmpInnerHtml = "";
+                var rmpInnerHtml = [];
                 var profTags = profHrefs.getElementsByTagName("a");
-                for(i = 0; i < profTags.length; i++){
+                const profTagsLength = profTags.length;
+                for(i = 0; i < profTagsLength; i++){
                     var profName = profHrefs.getElementsByTagName("a")[i].innerHTML;
                     var profNameInFormat = getInFormat(profName);
                     
@@ -30,9 +32,18 @@ function linkRMP(profJson){
                     var specificRmpUrl = genericRmpURL + profJson[profNameInFormat];
                     
                     var specificHref = genericHrefs[0] + specificRmpUrl + genericHrefs[1];
-                    rmpInnerHtml += specificHref;
+                    //rmpInnerHtml += specificHref;
+                    //profHrefs.getElementsByTagName("a")[i].innerHTML += specificHref;
+                    rmpInnerHtml[i] = specificHref;
                 }
-                profHrefs.innerHTML += rmpInnerHtml;
+                //profHrefs.innerHTML += rmpInnerHtml;
+                var innerHtmlIndex = 0;
+                for(i = 0; i < profTags.length; i++){
+                    profHrefs.getElementsByTagName("a")[i].innerHTML += rmpInnerHtml[innerHtmlIndex];
+                    console.log("profTags.length: " + profTags.length)
+                    i++;
+                    innerHtmlIndex++;
+                }
             }
         });
     });
