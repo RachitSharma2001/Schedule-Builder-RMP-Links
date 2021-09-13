@@ -79,18 +79,37 @@ if(prof_json == undefined){
     }, 300);
 }*/
 
+function getInFormat(profName){
+    return profName.replace(". ", "_");
+}
+
 function linkRMP(profJson){
     //console.log("Professor json for A_Kaloti: ", profJson["A_Kaloti"]);
     var target = document.getElementById("inlineCourseResultsDiv");
-
+    var genericRmpURL = "https://www.ratemyprofessors.com/ShowRatings.jsp?tid="
     // create an observer instance
     var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            professor_name = target.getElementsByClassName("data-item")[0].getElementsByClassName("data-item-long active")[0].getElementsByClassName("float-left")[0].getElementsByClassName("clearfix")[0].getElementsByClassName("data-column")[4];
-            console.log("Inner html: " + professor_name.innerHTML);
-            var name = "R_Furrow";
-            professor_name.innerHTML = '<a href="mailto:refurrow@ucdavis.edu">Inserted!</a>, <a href="mailto:slkeen@ucdavis.edu">Prof json of Kaloti: ' + profJson["A_Kaloti"] + '</a>';
-            console.log(json[name]);
+            profHrefs = target.getElementsByClassName("data-item")[0].getElementsByClassName("data-item-long active")[0].getElementsByClassName("float-left")[0].getElementsByClassName("clearfix")[0].getElementsByClassName("data-column")[4];
+            profTags = profHrefs.getElementsByTagName("a");
+            for(i = 0; i < profTags.length; i++){
+                var profName = profHrefs.getElementsByTagName("a")[i].innerHTML;
+                console.log("Professor name: " + profName);
+                var profNameInFormat = getInFormat(profName);
+                console.log("Professor tid: " + profJson[profNameInFormat]);
+                profHrefs.getElementsByTagName("a")[i].innerHTML = genericRmpURL + profJson[profNameInFormat];
+            }
+            /*console.log("All profHrefs: " + profHrefs.innerHTML);
+            console.log("Prof Hrefs at 0: " + profHrefs.getElementsByTagName("a")[0].innerHTML);
+            console.log("Prof Hrefs length: " + profHrefs.getElementsByTagName("a").length);*/
+
+            /*console.log("Professor hrefs get tag name: " + profHrefs.getElementsByTagName("a")[0]);
+            profName = profHrefs.getElementsByTagName("a")[0].getAttribute("href");
+            console.log("Professor name in a href: " + profName)*/
+            //console.log("Inner html: " + professor_name.innerHTML);
+            //var name = "R_Furrow";
+            //professor_name.innerHTML = '<a href="mailto:refurrow@ucdavis.edu">Inserted!</a>, <a href="mailto:slkeen@ucdavis.edu">Prof json of Kaloti: ' + profJson["A_Kaloti"] + '</a>';
+            //console.log(json[name]);
         });
     });
     // configuration of the observer:
@@ -101,9 +120,9 @@ function linkRMP(profJson){
 }
 
 const url = chrome.runtime.getURL('test_file.txt');
-    fetch(url)
-    .then((response) => response.json()) //assuming file contains json
-    .then((json) => linkRMP(json));
+fetch(url)
+.then((response) => response.json()) //assuming file contains json
+.then((json) => linkRMP(json));
 
 /*
 (async () => {
