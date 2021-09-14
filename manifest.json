@@ -1,7 +1,10 @@
 {
-  "name": "Getting Started Example",
-  "description": "Build an Extension!",
-  "version": "1.0",
+  "name": "RMP Schedule Builder Links",
+  "description": "Get links to the ratemyprofessor pages for the professor(s) of each class!",
+  "version": "0.1",
+  "icons": { "16": "Icon_16.png",
+    "48": "Icon_48.png",
+   "128": "Icon_128.png" },
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
